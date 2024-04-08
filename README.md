@@ -6,8 +6,6 @@ https://drive.google.com/drive/folders/1NcwkQC5i1ipYm3zwFbnxAee42rZ1EBCS?usp=dri
 
 Before running the program, ensure that the relevant dependency packages are installed
 
-Package                 Version
-
 PyBioMed                     1.0
 scikit-learn                   1.0.2
 torch                              1.7.1
