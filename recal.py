@@ -29,6 +29,7 @@ re_se = {'processed':[],
         }
 
 for set_name in os.listdir(path):
+    # Load the data required for the prediction
     se_orign = set_name.split('+')[5]
     
     drug_se = torch.load(path + '/' + set_name + '/' + 'drug_se.pt')
@@ -39,10 +40,16 @@ for set_name in os.listdir(path):
     edge_index = contoedge(drug_se) 
     new_con = torch.ones(drug_struc.shape[0],se_feature.shape[0])
     index_new = contoedge(new_con)
+    
+    # The sample data we use here is the complete data set for this study.
+    # If you want to predict compounds with other structures, 
+    # replace drug_struc and enter index_new that matches the number of your drug structures
 
     for doc in os.listdir(path + '/' + set_name):
         if doc.find('pkl') != -1:
+            # Load the trained model
             model = torch.load(path + '/' + set_name + '/' + doc)
+            # Make predictions in the overall data set
             prob = model(edge_index = edge_index.to(device),drug_struc = drug_struc.to(device),drug_expr = drug_expr.to(device),se_struc = se_feature.to(device),pair =index_new.to(device))
 
             if se_orign == 'zero':
@@ -50,7 +57,8 @@ for set_name in os.listdir(path):
                 se_feature = torch.load(path + '/' + processed_adrecs + '/se_feature.pt')
             else:
                 se_feature = se_feature
-
+            
+            # Predictive performance evaluation
             se_tres = [0.5, 0.9, 0.99]
             for se_tre in se_tres:
                 se_c = se_expr.copy()
