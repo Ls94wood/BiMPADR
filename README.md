@@ -13,5 +13,6 @@ torch-geometric         1.6.3
 rdkit                              2023.3.2
 
 Adverse drug reactions can be predicted using the guidelines in main.py
+`python main.py`
 
 
